@@ -12,8 +12,8 @@ exports.getFollowers = async (req, res, next) => {
 
     const browser = await puppeteer.launch({
       headless: true,
+      timeout: 9000,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
-      timeout: 90000,
     });
 
     const facebook = await browser.newPage();

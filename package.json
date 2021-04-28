@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "a scraper for instagram in node js",
   "main": "scraper.js",
-   "engines": {
-    "node": "8.x"
-  },
   "scripts": {
     "dev": "nodemon app.js",
     "start": "node app.js",
