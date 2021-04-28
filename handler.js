@@ -47,7 +47,11 @@ exports.getFollowers = async (req, res, next) => {
         facebook_followers = txt.split(" ")[0];
       }
     }
-
+    res.json({
+      success: true,
+      facebook: facebook_followers,
+      // instagram: instagram_followers,
+    });
     // for (let i = 0; i < spans.length; i++) {
     //   const element_i = spans[i];
     //   const txt_i = await instagram.evaluate(
@@ -60,14 +64,10 @@ exports.getFollowers = async (req, res, next) => {
     //   }
     // }
 
-    await facebook.close();
+    // await facebook.close();
     // await instagram.close();
 
-    return res.json({
-      success: true,
-      facebook: facebook_followers,
-      // instagram: instagram_followers,
-    });
+     
   } catch (error) {
     console.log(error);
     res.json({
