@@ -4,8 +4,7 @@ exports.getFollowers = async (req, res, next) => {
   try {
       if (!req.body.facebookURL || !req.body.instagramURL) {
         return res.json({
-          message:
-            "must include facebook and instagram urls in request params.",
+          message: "must include facebook and instagram urls in request body.",
         });
       }
 
@@ -60,6 +59,10 @@ exports.getFollowers = async (req, res, next) => {
       instagram: instagram_followers,
     });
   } catch (error) {
-    res.json(error);
+    res.json({
+      error: error,
+      facebook: facebook_followers,
+      instagram: instagram_followers,
+    });
   }
 };
