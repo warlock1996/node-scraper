@@ -21,10 +21,10 @@ exports.getFollowers = async (req, res, next) => {
     const facebook = await browser.newPage();
     // const instagram = await browser.newPage();
 
-    facebook.on("console", (msg) => {
-      for (let a = 0; a < msg.args.length; ++a)
-        console.log(`${a}: ${msg.args[a]}`);
-    });
+    // facebook.on("console", (msg) => {
+    //   for (let a = 0; a < msg.args.length; ++a)
+    //     console.log(`${a}: ${msg.args[a]}`);
+    // });
     // instagram.on("console", (msg) => {
     //   for (let b = 0; b < msg.args.length; ++b)
     //     console.log(`${b}: ${msg.args[b]}`);
@@ -50,6 +50,7 @@ exports.getFollowers = async (req, res, next) => {
     res.json({
       success: true,
       facebook: facebook_followers,
+
       // instagram: instagram_followers,
     });
     // for (let i = 0; i < spans.length; i++) {
@@ -66,8 +67,6 @@ exports.getFollowers = async (req, res, next) => {
 
     // await facebook.close();
     // await instagram.close();
-
-     
   } catch (error) {
     console.log(error);
     res.json({
