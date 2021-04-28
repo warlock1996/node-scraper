@@ -1,14 +1,14 @@
 const puppeteer = require("puppeteer");
 
 exports.getFollowers = async (req, res, next) => {
-  try {
-      if (!req.body.facebookURL || !req.body.instagramURL) {
-        return res.json({
-          message: "must include facebook and instagram urls in request body.",
-        });
-      }
+  let instagram_followers, facebook_followers;
 
-    let instagram_followers, facebook_followers;
+  try {
+    if (!req.body.facebookURL || !req.body.instagramURL) {
+      return res.json({
+        message: "must include facebook and instagram urls in request body.",
+      });
+    }
 
     const browser = await puppeteer.launch();
 
