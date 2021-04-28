@@ -45,13 +45,13 @@ exports.getFollowers = async (req, res, next) => {
       }
     }
 
-    for (let i = 0; i < spans_f.length; i++) {
-      const element = spans_f[i];
+    for (let j = 0; j < spans_f.length; j++) {
+      const element = spans_f[j];
       const txt = await facebook.evaluate(
         (element) => Promise.resolve(element.textContent),
         element
       );
-      
+
       console.log(txt);
       if (txt.includes("followers")) {
         facebook_followers = txt.split(" ")[0];
