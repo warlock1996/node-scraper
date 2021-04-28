@@ -12,7 +12,7 @@ exports.getFollowers = async (req, res, next) => {
 
     const browser = await puppeteer.launch({
       headless: true,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      args: ["--no-sandbox"],
     });
 
     const facebook = await browser.newPage();
