@@ -33,8 +33,6 @@ exports.getFollowers = async (req, res, next) => {
     const spans_f = await facebook.$$("span");
     const spans = await instagram.$$("ul li a");
 
-    console.log("spans_f, spans,", spans_f, spans);
-
     for (let i = 0; i < spans.length; i++) {
       const element_i = spans[i];
       const txt_i = await instagram.evaluate(
