@@ -1,0 +1,11 @@
+---
+application:
+  name: "node-scraper"
+  project: "node-scraper"
+  organization: "QoveryCommunity"
+routers:
+- name: "main-node-scraper"
+  routes:
+  - application_name: "node-scraper"
+    paths:
+    - "/*"
