@@ -33,6 +33,19 @@ exports.getFollowers = async (req, res, next) => {
     const spanElements = await facebook.$$("div span");
     const spans = await instagram.$$("ul li a");
 
+     for (let j = 0; j < spanElements.length; j++) {
+       const element = spanElements[j];
+       const txt = await facebook.evaluate((element) => {
+         return Promise.resolve(element.textContent);
+       }, element);
+
+       console.log(txt);
+       if (txt.includes("followers")) {
+         facebook_followers = txt.split(" ")[0];
+       }
+     }
+     
+
     for (let i = 0; i < spans.length; i++) {
       const element_i = spans[i];
       const txt_i = await instagram.evaluate(
@@ -45,20 +58,7 @@ exports.getFollowers = async (req, res, next) => {
       }
     }
 
-    for (let j = 0; j < spanElements.length; j++) {
-      const element = spanElements[j];
-      const txt = await facebook.evaluate(
-        (element) => {
-          return Promise.resolve(element.textContent);
-        },
-        element
-      );
-
-      console.log(txt);
-      if (txt.includes("followers")) {
-        facebook_followers = txt.split(" ")[0];
-      }
-    }
+   
     await facebook.close();
     await instagram.close();
 
