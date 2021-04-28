@@ -58,6 +58,7 @@ exports.getFollowers = async (req, res, next) => {
     await instagram.close();
 
     res.json({
+      success: true,
       facebook: facebook_followers,
       instagram: instagram_followers,
     });
