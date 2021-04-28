@@ -63,6 +63,7 @@ exports.getFollowers = async (req, res, next) => {
     });
   } catch (error) {
     res.json({
+      success: false,
       error: error,
       facebook: facebook_followers,
       instagram: instagram_followers,
