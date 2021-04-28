@@ -1,12 +1,10 @@
 const puppeteer = require("puppeteer");
 
 exports.getFollowers = async (req, res, next) => {
-  let facebook_followers;
-  // instagram_followers;
+  let facebook_followers, instagram_followers;
 
   try {
-    // || !req.body.instagramURL
-    if (!req.body.facebookURL) {
+    if (!req.body.facebookURL || !req.body.instagramURL) {
       return res.json({
         message: "must include facebook and instagram urls in request body.",
       });
@@ -19,51 +17,51 @@ exports.getFollowers = async (req, res, next) => {
     });
 
     const facebook = await browser.newPage();
-    // const instagram = await browser.newPage();
+    const instagram = await browser.newPage();
 
-    // facebook.on("console", (msg) => {
-    //   for (let a = 0; a < msg.args.length; ++a)
-    //     console.log(`${a}: ${msg.args[a]}`);
-    // });
-    // instagram.on("console", (msg) => {
-    //   for (let b = 0; b < msg.args.length; ++b)
-    //     console.log(`${b}: ${msg.args[b]}`);
-    // });
+    facebook.on("console", (msg) => {
+      for (let a = 0; a < msg.args.length; ++a)
+        console.log(`${a}: ${msg.args[a]}`);
+    });
+    instagram.on("console", (msg) => {
+      for (let b = 0; b < msg.args.length; ++b)
+        console.log(`${b}: ${msg.args[b]}`);
+    });
 
     await facebook.goto(req.body.facebookURL);
-    // await instagram.goto(req.body.instagramURL);
+    await instagram.goto(req.body.instagramURL);
 
-    const spanElements = await facebook.$$("div span");
-    // const spans = await instagram.$$("ul li a");
-
+    const spanElements = await facebook.$$("span");
+    const spans = await instagram.$$("a");
     for (let j = 0; j < spanElements.length; j++) {
       const element = spanElements[j];
-      const txt = await facebook.evaluate((element) => {
-        return Promise.resolve(element.textContent);
-      }, element);
+      const txt = await facebook.evaluate(
+        (element) => Promise.resolve(element.textContent),
+        element
+      );
 
       console.log(txt);
       if (txt.includes("followers")) {
         facebook_followers = txt.split(" ")[0];
       }
     }
-    res.json({
+
+    for (let i = 0; i < spans.length; i++) {
+      const element_i = spans[i];
+      const txt_i = await instagram.evaluate(
+        (element_i) => Promise.resolve(element_i.textContent),
+        element_i
+      );
+      console.log(txt_i);
+      if (txt_i.includes("followers")) {
+        instagram_followers = txt_i.split(" ")[0];
+      }
+    }
+    return res.json({
       success: true,
       facebook: facebook_followers,
-
-      // instagram: instagram_followers,
+      instagram: instagram_followers,
     });
-    // for (let i = 0; i < spans.length; i++) {
-    //   const element_i = spans[i];
-    //   const txt_i = await instagram.evaluate(
-    //     (element_i) => Promise.resolve(element_i.textContent),
-    //     element_i
-    //   );
-    //   console.log(txt_i);
-    //   if (txt_i.includes("followers")) {
-    //     instagram_followers = txt_i.split(" ")[0];
-    //   }
-    // }
 
     // await facebook.close();
     // await instagram.close();
@@ -73,7 +71,7 @@ exports.getFollowers = async (req, res, next) => {
       success: false,
       error: error,
       facebook: facebook_followers,
-      // instagram: instagram_followers,
+      instagram: instagram_followers,
     });
   }
-};;
+};
