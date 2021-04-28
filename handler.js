@@ -1,7 +1,7 @@
 const puppeteer = require("puppeteer");
 
 exports.getFollowers = async (req, res, next) => {
-  var instagram_followers, facebook_followers;
+  let facebook_followers, instagram_followers;
 
   try {
     if (!req.body.facebookURL || !req.body.instagramURL) {
@@ -19,18 +19,18 @@ exports.getFollowers = async (req, res, next) => {
     const instagram = await browser.newPage();
 
     facebook.on("console", (msg) => {
-      for (let i = 0; i < msg.args.length; ++i)
-        console.log(`${i}: ${msg.args[i]}`);
+      for (let a = 0; a < msg.args.length; ++a)
+        console.log(`${a}: ${msg.args[a]}`);
     });
     instagram.on("console", (msg) => {
-      for (let i = 0; i < msg.args.length; ++i)
-        console.log(`${i}: ${msg.args[i]}`);
+      for (let b = 0; b < msg.args.length; ++b)
+        console.log(`${b}: ${msg.args[b]}`);
     });
 
     await facebook.goto(req.body.facebookURL);
     await instagram.goto(req.body.instagramURL);
 
-    const spans_f = await facebook.$$("span");
+    const spanElements = await facebook.$$("div span");
     const spans = await instagram.$$("ul li a");
 
     for (let i = 0; i < spans.length; i++) {
@@ -45,10 +45,12 @@ exports.getFollowers = async (req, res, next) => {
       }
     }
 
-    for (let j = 0; j < spans_f.length; j++) {
-      const element = spans_f[j];
+    for (let j = 0; j < spanElements.length; j++) {
+      const element = spanElements[j];
       const txt = await facebook.evaluate(
-        (element) => Promise.resolve(element.textContent),
+        (element) => {
+          return Promise.resolve(element.textContent);
+        },
         element
       );
 
@@ -60,7 +62,7 @@ exports.getFollowers = async (req, res, next) => {
     await facebook.close();
     await instagram.close();
 
-    res.json({
+    return res.json({
       success: true,
       facebook: facebook_followers,
       instagram: instagram_followers,
