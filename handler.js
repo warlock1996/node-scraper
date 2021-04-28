@@ -39,7 +39,6 @@ exports.getFollowers = async (req, res, next) => {
         (element) => Promise.resolve(element.textContent),
         element
       );
-
       console.log(txt);
       if (txt.includes("followers")) {
         facebook_followers = txt.split(" ")[0];
