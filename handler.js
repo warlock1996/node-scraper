@@ -10,7 +10,10 @@ exports.getFollowers = async (req, res, next) => {
       });
     }
 
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
 
     const facebook = await browser.newPage();
     const instagram = await browser.newPage();
