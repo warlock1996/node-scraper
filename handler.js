@@ -1,7 +1,7 @@
 const puppeteer = require("puppeteer");
 
 exports.getFollowers = async (req, res, next) => {
-  let instagram_followers, facebook_followers;
+  var instagram_followers, facebook_followers;
 
   try {
     if (!req.body.facebookURL || !req.body.instagramURL) {
@@ -36,9 +36,10 @@ exports.getFollowers = async (req, res, next) => {
     for (let i = 0; i < spans.length; i++) {
       const element_i = spans[i];
       const txt_i = await instagram.evaluate(
-        (element_i) => element_i.textContent,
+        (element_i) => Promise.resolve(element_i.textContent),
         element_i
       );
+      console.log(txt_i);
       if (txt_i.includes("followers")) {
         instagram_followers = txt_i.split(" ")[0];
       }
@@ -47,9 +48,11 @@ exports.getFollowers = async (req, res, next) => {
     for (let i = 0; i < spans_f.length; i++) {
       const element = spans_f[i];
       const txt = await facebook.evaluate(
-        (element) => element.textContent,
+        (element) => Promise.resolve(element.textContent),
         element
       );
+      
+      console.log(txt);
       if (txt.includes("followers")) {
         facebook_followers = txt.split(" ")[0];
       }
