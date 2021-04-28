@@ -3,6 +3,7 @@ application:
   name: "node-scraper"
   project: "node-scraper"
   organization: "QoveryCommunity"
+  port: 8080
 routers:
 - name: "main-node-scraper"
   routes:
