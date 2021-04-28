@@ -5,6 +5,7 @@ const { getFollowers } = require("./handler");
 const app = express();
 
 app.use(bodyParser.json());
+
 app.post("/followers", getFollowers);
 
 app.listen(process.env.PORT || 5000, () => {
