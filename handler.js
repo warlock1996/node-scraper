@@ -10,7 +10,7 @@ exports.getFollowers = async (req, res, next) => {
       });
     }
 
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ headless: true });
 
     const facebook = await browser.newPage();
     const instagram = await browser.newPage();
