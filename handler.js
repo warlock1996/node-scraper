@@ -12,7 +12,7 @@ exports.getFollowers = async (req, res, next) => {
 
     const browser = await puppeteer.launch({
       headless: false,
-      timeout: 9000,
+      timeout: 10000000,
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
 
@@ -22,7 +22,7 @@ exports.getFollowers = async (req, res, next) => {
       for (let a = 0; a < msg.args.length; ++a)
         console.log(`${a}: ${msg.args[a]}`);
     });
-    await facebook.goto(req.body.facebookURL);
+    await facebook.goto(req.body.facebookURL, { waitUntil: "networkidle0" });
     const spanElements = await facebook.$$("span");
     for (let j = 0; j < spanElements.length; j++) {
       const element = spanElements[j];
@@ -40,7 +40,7 @@ exports.getFollowers = async (req, res, next) => {
       for (let b = 0; b < msg.args.length; ++b)
         console.log(`${b}: ${msg.args[b]}`);
     });
-    await instagram.goto(req.body.instagramURL);
+    await instagram.goto(req.body.instagramURL, { waitUntil: "networkidle0" });
     const spans = await instagram.$$("a");
     for (let i = 0; i < spans.length; i++) {
       const element_i = spans[i];
